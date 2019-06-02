@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class LoginRequest extends StringRequest
 {
-    private static final String Regis_URL = "http://10.0.2.2/logincust";
+    private static final String Regis_URL = "http://192.168.43.159:8080/logincust";
     private Map<String, String> params;
 
     public LoginRequest(String email, String password, Response.Listener<String> listener)

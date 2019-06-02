@@ -21,7 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         final EditText nameInput = (EditText) findViewById(R.id.nameInput);
         final EditText emailInput = (EditText) findViewById(R.id.emailInput);
-        final EditText passwordInput = (EditText) findViewById(R.id.passwordInput);
+        final EditText passwordInput = (EditText) findViewById(R.id.passInput);
         final Button registerButton = (Button) findViewById(R.id.loginButton);
 
         registerButton.setOnClickListener(new View.OnClickListener()

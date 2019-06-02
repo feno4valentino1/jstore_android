@@ -16,22 +16,22 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity
 {
-    protected void onCreate(Bundle savedInstanceState )
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        final EditText emailInput = (EditText) findViewById(R.id.emailInput);
-        final EditText passwordInput = (EditText) findViewById(R.id.passwordInput);
-        final Button loginButton = (Button) findViewById(R.id.loginButton);
-        final TextView registerButton = (TextView) findViewById(R.id.registerClickButton);
+        final EditText emailInput = findViewById(R.id.emailInput);
+        final EditText passInput = findViewById(R.id.passInput);
+        final Button loginButton = findViewById(R.id.loginButton);
+        final TextView registerClickable = findViewById(R.id.registerClickable);
 
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view)
+            public void onClick(View v)
             {
-                final String inputEmail = emailInput.getText().toString();
-                final String inputPassword = passwordInput.getText().toString();
+                final String email = emailInput.getText().toString();
+                final String password = passInput.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>()
                 {
@@ -40,34 +40,37 @@ public class LoginActivity extends AppCompatActivity
                     {
                         try
                         {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            if(jsonResponse != null)
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject != null)
                             {
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
-                                builder1.setMessage("Login Success!").create().show();
+                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                intent.putExtra("customer_id", jsonObject.getInt("id"));
+                                intent.putExtra("customer_name", jsonObject.getString("name"));
+                                finish();
+                                startActivity(intent);
                             }
                         }
                         catch (JSONException e)
                         {
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
-                            builder1.setMessage("Login Failed!").create().show();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setMessage("Login Failed!").create().show();
                         }
                     }
                 };
 
-                LoginRequest loginRequest = new LoginRequest(inputEmail, inputPassword, responseListener);
+                LoginRequest loginRequest = new LoginRequest(email, password, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
                 queue.add(loginRequest);
             }
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener()
+        registerClickable.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view)
+            public void onClick(View v)
             {
-                Intent registrationIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(registrationIntent);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
     }
